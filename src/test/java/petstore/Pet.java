@@ -10,11 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 //3-Classe
 public class Pet {
     //4-Atributos
-    String uri = "https://petstore.swagger.io/v2/pet";
+    String uri = "https://petstore.swagger.io/v2/pet"; //endereço da entidade Pet
 
     //5-Metodos e funções
     public String lerJson(String caminhoJson) throws IOException {
@@ -38,7 +39,10 @@ public class Pet {
                 .post(uri)
         .then()
                 .log().all() //VOLTA da Requisição
-                .statusCode(200);
+                .statusCode(200) // Significa que a msg foi e voltou com sucesso
+                .body("name", is("Snoop")) //Verifica se o nome é o mesmo enviado
+                .body("status", is("available")) //Verifica se o status está como disponível
+        ;
     }
 
 }
